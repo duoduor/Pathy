@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hand.mybatis.mapper.FilmInfoMapper">
+    <resultMap id="film" type="com.hand.mybatis.dto.FilmInfo">
+        <id property="id" column="film_id" javaType="java.lang.Integer"></id>
+        <result property="releaYear" column="releaYear" javaType="java.util.Date"></result>
+        <result property="length" column="length" javaType="java.lang.String"></result>
+        <result property="description" column="description" javaType="java.lang.String"></result>
+        <result property="filmName" column="filmName" javaType="java.lang.String"></result>
+        <result property="actor" column="actor" javaType="java.lang.String"></result>
+        <result property="lastName" column="lastName" javaType="java.lang.String"></result>
+        <result property="lastUpdate" column="last_update" javaType="java.util.Date"></result>
+    </resultMap>
+<select id="findFilmInfo" resultMap="film">
+SELECT
+  f.film_id AS id,
+  f.release_year AS releaYear,
+  f.length,
+  f.description,
+  f.title AS filmName,
+  a.first_name AS actor,
+  a.last_name AS lastName,
+  a.last_update AS updateTime
+FROM
+	film f,
+	actor a,
+  language l,
+	film_actor fa
+ WHERE fa.film_id = <![CDATA[#{id}]]>
+  AND  f.film_id = fa.film_id
+ AND fa.actor_id = a.actor_id
+ AND fa.film_id = f.film_id
+
+</select>
+</mapper>
